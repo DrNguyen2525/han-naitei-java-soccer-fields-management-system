@@ -2,6 +2,7 @@ package app.service.impl;
 
 import app.info.FieldInfo;
 import app.model.Field;
+import app.model.FieldType;
 import app.service.FieldService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
@@ -51,6 +52,19 @@ public class FieldServiceImpl extends BaseServiceImpl implements FieldService {
     }
 
     @Override
+    public boolean deleteField(FieldInfo fieldInfo) {
+        try {
+            Field field = getFieldDAO().findById(fieldInfo.getId(), true);
+            getFieldDAO().delete(field);
+            logger.info(String.format("Delete Field Type having id: %d", fieldInfo.getId()));
+            return true;
+        } catch (Exception e) {
+            logger.error(e);
+            throw e;
+        }
+    }
+
+    @Override
     public FieldInfo findByName(String name) {
         try {
             Field field = getFieldDAO().findByName(name);
@@ -61,18 +75,6 @@ public class FieldServiceImpl extends BaseServiceImpl implements FieldService {
             return null;
         }
     }
-
-//    @Override
-//    public List<FieldInfo> searchFields(String key) {
-//        try {
-//            List<Field> fields = getFieldDAO().searchFields(key);
-//            logger.info(String.format("Search Field with: %s", key));
-//            return fields.stream().map(FieldInfo::new).collect(Collectors.toList());
-//        } catch (Exception e) {
-//            logger.error(e);
-//            return null;
-//        }
-//    }
 
     @Override
     public Page<FieldInfo> searchFields(String key, FieldInfo fieldInfo) {

@@ -23,6 +23,8 @@ import java.util.Optional;
 @Controller
 public class FieldController extends BaseController {
 
+    private static final Logger logger = Logger.getLogger(BookingRequestController.class);
+
     private final FieldService fieldService;
 
     private final FieldTypeService fieldTypeService;
@@ -109,5 +111,25 @@ public class FieldController extends BaseController {
             return handleRedirect(redirectAttributes, "success", "Field type created.", "/fields");
 
         return handleRedirect(redirectAttributes, "error", "Error creating field type.", "/fields");
+    }
+
+    @GetMapping("/fields/{id}/delete")
+    public String delete(@PathVariable("id") int id, final RedirectAttributes redirectAttributes) {
+
+        FieldInfo fieldInfo = fieldService.findField(id);
+
+        if (fieldInfo == null)
+            return handleRedirect(redirectAttributes, "error", "Field not found", "/fields");
+
+        try {
+            boolean isDeleted = fieldService.deleteField(fieldInfo);
+            logger.info("IS DELETED: " + isDeleted);
+            if (isDeleted)
+                return handleRedirect(redirectAttributes, "success", "Field deleted", "/fields");
+
+            return handleRedirect(redirectAttributes, "error", "Error deleting field", "/fields");
+        } catch (Exception e) {
+            return handleRedirect(redirectAttributes, "error", "Error deleting field", "/fields");
+        }
     }
 }
