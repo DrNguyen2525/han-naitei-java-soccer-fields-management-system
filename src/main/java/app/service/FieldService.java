@@ -14,6 +14,8 @@ public interface FieldService {
 
     boolean updateField(FieldInfo field);
 
+    boolean deleteField(FieldInfo field);
+
     FieldInfo findByName(String name);
 
 //    List<FieldInfo> searchFields(String key);
