@@ -153,12 +153,10 @@
                                                 <td th:id="'status_' + ${bookingRequest.id}"
                                                     th:text="${bookingRequest.status}"></td>
                                                 <td>
-                                                    <a class="btn btn-outline-danger"
-                                                       sec:authorize="hasRole('ROLE_ADMIN')"
-                                                       th:href="@{'/booking-requests/' + ${bookingRequest.id} + '/delete'}">Reject</a>
-                                                    <a class="btn btn-outline-danger"
-                                                       sec:authorize="hasRole('ROLE_USER')"
-                                                       th:href="@{'/booking-requests/' + ${bookingRequest.id} + '/delete'}">Cancel</a>
+                                                    <button class="btn btn-success approve_btn"
+                                                            sec:authorize="hasRole('ROLE_ADMIN')"
+                                                            th:attr="data-id=${bookingRequest.id}">Approve
+                                                    </button>
                                                 </td>
                                             </tr>
                                         </th:block>
@@ -177,7 +175,6 @@
                                             <th scope="col">From Date</th>
                                             <th scope="col">To Date</th>
                                             <th scope="col">Status</th>
-                                            <th scope="col">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -190,14 +187,6 @@
                                                 <td th:text="${#dates.format(bookingRequest.toDate, 'HH:mm dd/MM/yyyy')}"></td>
                                                 <td th:id="'status_' + ${bookingRequest.id}"
                                                     th:text="${bookingRequest.status}"></td>
-                                                <td>
-                                                    <a class="btn btn-outline-danger"
-                                                       sec:authorize="hasRole('ROLE_ADMIN')"
-                                                       th:href="@{'/booking-requests/' + ${bookingRequest.id} + '/delete'}">Reject</a>
-                                                    <a class="btn btn-outline-danger"
-                                                       sec:authorize="hasRole('ROLE_USER')"
-                                                       th:href="@{'/booking-requests/' + ${bookingRequest.id} + '/delete'}">Cancel</a>
-                                                </td>
                                             </tr>
                                         </th:block>
                                         </tbody>
